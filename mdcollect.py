@@ -68,7 +68,7 @@ def main():
         print(f"未找到Markdown文件，请检查目录: {docs_dir.absolute()}")
         return
     
-    output_file = script_dir / "markdown_list.json"
+    output_file = docs_dir / "markdown_list.json"
     try:
         with output_file.open('w', encoding='utf-8') as f:
             json.dump(markdown_data, f, 
