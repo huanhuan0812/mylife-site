@@ -1,0 +1,124 @@
+body {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+.file-list {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+.file-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 30px;
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+.tag {
+    display: inline-block;
+    background-color: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    margin-right: 5px;
+    color: #495057;
+}
+.file-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.file-item:hover {
+    background-color: #f8f9fa;
+}
+.file-item.active {
+    background-color: #e9ecef;
+}
+.file-date {
+    font-size: 0.8em;
+    color: #6c757d;
+}
+.loading {
+    color: #6c757d;
+    font-style: italic;
+}
+/* 任务列表样式 */
+.task-list-item {
+    list-style-type: none;
+}
+.task-list-item-checkbox {
+    margin-right: 8px;
+}
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+/* 脚注样式 */
+.footnotes {
+    font-size: 0.9em;
+    color: #666;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+    padding-top: 10px;
+}
+/* 图表容器 */
+.mermaid, .math-container {
+    margin: 20px 0;
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+}
+/* 图片样式 */
+.markdown-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 15px 0;
+    cursor: zoom-in;
+    transition: transform 0.2s;
+}
+.markdown-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.image-caption {
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+/* 图片画廊容器 */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+.image-gallery img {
+    flex: 1 1 calc(33.333% - 10px);
+    min-width: 150px;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+}
