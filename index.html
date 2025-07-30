@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 文件浏览器</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/core.min.js"></script>
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .file-list {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+        .file-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 30px;
+            height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            margin-right: 5px;
+            color: #495057;
+        }
+        .file-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .file-item:hover {
+            background-color: #f8f9fa;
+        }
+        .file-item.active {
+            background-color: #e9ecef;
+        }
+        .file-date {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+        .loading {
+            color: #6c757d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1 class="mb-4">Markdown 文件浏览器</h1>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="file-list">
+                    <h5>文件列表</h5>
+                    <div id="file-list-container">
+                        <p class="loading">加载文件列表中...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="file-content">
+                    <div id="file-content-container">
+                        <p class="text-muted">请从左侧选择文件查看内容</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 配置 marked 和 highlight.js
+        marked.setOptions({
+            highlight: function(code, lang) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            },
+            langPrefix: 'hljs language-',
+            breaks: true,
+            gfm: true
+        });
+
+        // 获取文件列表
+        async function fetchFileList() {
+            try {
+                const response = await fetch('./docs/index.json');
+                if (!response.ok) {
+                    throw new Error('无法加载文件列表');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('加载文件列表失败:', error);
+                document.getElementById('file-list-container').innerHTML = 
+                    '<p class="text-danger">加载文件列表失败，请刷新重试</p>';
+                return [];
+            }
+        }
+
+        // 获取Markdown文件内容
+        async function fetchMarkdownContent(path) {
+            try {
+                const response = await fetch(`./docs/${path}`);
+                if (!response.ok) {
+                    throw new Error('无法加载文件内容');
+                }
+                return await response.text();
+            } catch (error) {
+                console.error('加载文件内容失败:', error);
+                return `# 加载失败\n\n无法加载文件内容: ${error.message}`;
+            }
+        }
+
+        // 渲染文件列表
+        async function renderFileList() {
+            const filesData = await fetchFileList();
+            const container = document.getElementById('file-list-container');
+            
+            if (filesData.length === 0) {
+                container.innerHTML = '<p class="text-muted">没有可用的文件</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            filesData.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>${file.frontmatter.title}</strong>
+                        <span class="file-date">${file.frontmatter.date}</span>
+                    </div>
+                    <div class="mt-2">
+                        ${file.frontmatter.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                
+                fileItem.addEventListener('click', async () => {
+                    // 移除所有 active 类
+                    document.querySelectorAll('.file-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    // 添加 active 类到当前项
+                    fileItem.classList.add('active');
+                    
+                    // 显示加载状态
+                    const contentContainer = document.getElementById('file-content-container');
+                    contentContainer.innerHTML = '<p class="loading">加载中...</p>';
+                    
+                    // 加载文件内容
+                    const content = await fetchMarkdownContent(file.path);
+                    contentContainer.innerHTML = marked.parse(content);
+                });
+                
+                container.appendChild(fileItem);
+            });
+            
+            // 默认选中第一个文件
+            if (filesData.length > 0) {
+                container.firstChild.click();
+            }
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', renderFileList);
+    </script>
+</body>
+</html>
