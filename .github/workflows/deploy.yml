@@ -27,5 +27,6 @@ jobs:
       run: python mdcollect.py  # 替换为你的 Python 文件名
     - name: ls
       run: |
+        ls
         cd docs
         ls
