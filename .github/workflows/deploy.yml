@@ -24,9 +24,4 @@ jobs:
         pip install pyyaml
       
     - name: Run Python script
-      run: python life/mdcollect.py  # 替换为你的 Python 文件名
-    - name: ls
-      run: |
-        ls
-        cd docs
-        ls
+      run: python life/mdcollect.py
