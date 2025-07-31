@@ -25,3 +25,16 @@ jobs:
       
     - name: Run Python script
       run: python life/mdcollect.py
+    
+    - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          external_repository: huanhuan0812/huanhuan0812.github.io
+          publish_dir: ./life
+          destination_dir: life
+          keep_files: false
+          force_orphan: false
+          publish_branch: main
+          user_name: 'github-actions[bot]'
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          deploy_key: ${{secrets.LIFE_DEPLOY}
