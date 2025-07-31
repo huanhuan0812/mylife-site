@@ -81,9 +81,11 @@ async function fetchFileList() {
 // 获取Markdown文件内容
 async function fetchMarkdownContent(path) {
     try {
-        const response = await fetch(`./docs/${path}`);
+        // 确保路径正确编码
+        const encodedPath = encodeURIComponent(path);
+        const response = await fetch(`./docs/${encodedPath}`);
         if (!response.ok) {
-            throw new Error('无法加载文件内容');
+            throw new Error(`无法加载文件: ${response.status}`);
         }
         let content = await response.text();
         
@@ -97,7 +99,7 @@ async function fetchMarkdownContent(path) {
         return content;
     } catch (error) {
         console.error('加载文件内容失败:', error);
-        return `# 加载失败\n\n无法加载文件内容: ${error.message}`;
+        throw error; // 抛出错误以便上层处理
     }
 }
 
@@ -202,33 +204,48 @@ function renderFilteredList(filesData, searchTerm) {
             </div>
         `;
         
+        // 修改点击事件处理，确保每次点击都能正确加载内容
         fileItem.addEventListener('click', async () => {
+            // 移除所有 active 类
             document.querySelectorAll('.file-item').forEach(item => {
                 item.classList.remove('active');
             });
+            // 添加 active 类到当前项
             fileItem.classList.add('active');
             
+            // 显示加载状态
             const contentContainer = document.getElementById('file-content-container');
             contentContainer.innerHTML = '<p class="loading">加载中...</p>';
             
-            const content = await fetchMarkdownContent(file.path);
-            const dirty = marked.parse(content);
-            const clean = DOMPurify.sanitize(dirty, {
-                ADD_ATTR: ['target']
-            });
-            contentContainer.innerHTML = clean;
-            
-            renderMath();
-            renderMermaid();
-            initImageViewer();
+            try {
+                // 加载文件内容
+                const content = await fetchMarkdownContent(file.path);
+                
+                // 使用DOMPurify清理HTML
+                const dirty = marked.parse(content);
+                const clean = DOMPurify.sanitize(dirty, {
+                    ADD_ATTR: ['target'] // 允许target属性
+                });
+                contentContainer.innerHTML = clean;
+                
+                // 渲染扩展语法
+                renderMath();
+                await renderMermaid(); // 确保使用await
+                initImageViewer();
+            } catch (error) {
+                console.error('加载内容失败:', error);
+                contentContainer.innerHTML = `<p class="text-danger">加载失败: ${error.message}</p>`;
+            }
         });
         
         container.appendChild(fileItem);
     });
     
-    // 默认选中第一个文件（仅在初始加载时）
+    // 默认选中第一个文件（仅在初始加载且无搜索词时）
     if (searchTerm === '' && filteredFiles.length > 0) {
-        container.firstChild.click();
+        const firstItem = container.firstChild;
+        firstItem.classList.add('active');
+        firstItem.click(); // 主动触发点击事件加载内容
     }
 }
 
