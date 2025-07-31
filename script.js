@@ -65,7 +65,7 @@ marked.setOptions({
 // 获取文件列表
 async function fetchFileList() {
     try {
-        const response = await fetch('./docs/index.json');
+        const response = await fetch('./docs/markdown_list.json');
         if (!response.ok) {
             throw new Error('无法加载文件列表');
         }
@@ -85,7 +85,16 @@ async function fetchMarkdownContent(path) {
         if (!response.ok) {
             throw new Error('无法加载文件内容');
         }
-        return await response.text();
+        let content = await response.text();
+        
+        // 去除Frontmatter部分
+        const frontmatterPattern = /^---\s*\n(.*?)\n---\s*\n(.*)$/s;
+        const match = content.match(frontmatterPattern);
+        if (match) {
+            content = match[2]; // 只保留Frontmatter之后的内容
+        }
+        
+        return content;
     } catch (error) {
         console.error('加载文件内容失败:', error);
         return `# 加载失败\n\n无法加载文件内容: ${error.message}`;
@@ -148,19 +157,39 @@ function initImageViewer() {
     }
 }
 
-// 渲染文件列表
-async function renderFileList() {
-    const filesData = await fetchFileList();
-    const container = document.getElementById('file-list-container');
+// 在 renderFileList 函数上方添加搜索函数
+function filterFiles(filesData, searchTerm) {
+    if (!searchTerm) return filesData;
     
-    if (filesData.length === 0) {
-        container.innerHTML = '<p class="text-muted">没有可用的文件</p>';
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    return filesData.filter(file => {
+        // 搜索标题
+        const titleMatch = file.frontmatter.title.toLowerCase().includes(lowerSearchTerm);
+        
+        // 搜索标签
+        const tagsMatch = file.frontmatter.tags.some(tag => 
+            tag.toLowerCase().includes(lowerSearchTerm)
+        );
+        
+        // 搜索日期
+        const dateMatch = file.frontmatter.date.toLowerCase().includes(lowerSearchTerm);
+        
+        return titleMatch || tagsMatch || dateMatch;
+    });
+}
+
+function renderFilteredList(filesData, searchTerm) {
+    const container = document.getElementById('file-list-container');
+    const filteredFiles = filterFiles(filesData, searchTerm);
+    
+    if (filteredFiles.length === 0) {
+        container.innerHTML = '<p class="text-muted">没有找到匹配的文件</p>';
         return;
     }
     
     container.innerHTML = '';
     
-    filesData.forEach(file => {
+    filteredFiles.forEach(file => {
         const fileItem = document.createElement('div');
         fileItem.className = 'file-item';
         fileItem.innerHTML = `
@@ -174,28 +203,21 @@ async function renderFileList() {
         `;
         
         fileItem.addEventListener('click', async () => {
-            // 移除所有 active 类
             document.querySelectorAll('.file-item').forEach(item => {
                 item.classList.remove('active');
             });
-            // 添加 active 类到当前项
             fileItem.classList.add('active');
             
-            // 显示加载状态
             const contentContainer = document.getElementById('file-content-container');
             contentContainer.innerHTML = '<p class="loading">加载中...</p>';
             
-            // 加载文件内容
             const content = await fetchMarkdownContent(file.path);
-            
-            // 使用DOMPurify清理HTML
             const dirty = marked.parse(content);
             const clean = DOMPurify.sanitize(dirty, {
-                ADD_ATTR: ['target'] // 允许target属性
+                ADD_ATTR: ['target']
             });
             contentContainer.innerHTML = clean;
             
-            // 渲染扩展语法
             renderMath();
             renderMermaid();
             initImageViewer();
@@ -204,10 +226,30 @@ async function renderFileList() {
         container.appendChild(fileItem);
     });
     
-    // 默认选中第一个文件
-    if (filesData.length > 0) {
+    // 默认选中第一个文件（仅在初始加载时）
+    if (searchTerm === '' && filteredFiles.length > 0) {
         container.firstChild.click();
     }
+}
+
+// 修改 renderFileList 函数
+async function renderFileList() {
+    const filesData = await fetchFileList();
+    const container = document.getElementById('file-list-container');
+    
+    if (filesData.length === 0) {
+        container.innerHTML = '<p class="text-muted">没有可用的文件</p>';
+        return;
+    }
+    
+    // 添加搜索输入事件监听
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', () => {
+        renderFilteredList(filesData, searchInput.value);
+    });
+    
+    // 初始渲染
+    renderFilteredList(filesData, '');
 }
 
 // 初始化

@@ -2,6 +2,9 @@ body {
     padding: 20px;
     background-color: #f8f9fa;
 }
+.root{
+    --primary-color: #0366d6;
+}
 .file-list {
     background-color: white;
     border-radius: 8px;
@@ -21,12 +24,12 @@ body {
 }
 .tag {
     display: inline-block;
-    background-color: #e9ecef;
+    background-color: rgba(3, 102, 214, 0.1);
     padding: 2px 8px;
     border-radius: 10px;
     font-size: 0.8em;
     margin-right: 5px;
-    color: #495057;
+    color: var(--primary-color);
 }
 .file-item {
     padding: 10px 15px;
@@ -38,7 +41,8 @@ body {
     background-color: #f8f9fa;
 }
 .file-item.active {
-    background-color: #e9ecef;
+    background-color: rgba(3, 102, 214, 0.1);
+    border-left: 3px solid var(--primary-color);
 }
 .file-date {
     font-size: 0.8em;
@@ -121,4 +125,90 @@ th {
     object-fit: cover;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* 添加在文件末尾 */
+/* 标题样式 */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+h2 {
+    font-size: 1.75rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+/* 列表样式 */
+ul, ol {
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+/* 强调文本样式 */
+strong {
+    font-weight: bold;
+    color: #333;
+}
+
+/* 时间表样式 */
+.day-schedule {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.day-schedule h3 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+/* 添加在文件末尾 */
+.search-container {
+    margin-bottom: 15px;
+}
+
+#search-input {
+    border-radius: 20px;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    box-shadow: none;
+}
+
+#search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(3, 102, 214, 0.25);
+}
+
+.btn-back {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-back:hover {
+    background-color: #0356b6 !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
