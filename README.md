@@ -1,6 +1,6 @@
 # mylife-site
 
-**开头fontmatter格式
+**开头fontmatter格式**
 ```markdown
 ---
 title: 标题
