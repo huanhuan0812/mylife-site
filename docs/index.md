@@ -16,6 +16,9 @@ hero:
     - theme: alt
       text: 关于我
       link: /about/
+    - theme: alt
+      text: 记录
+      link: /record
 ---
 <br></br><br></br>
 # 这是我的知识仓库

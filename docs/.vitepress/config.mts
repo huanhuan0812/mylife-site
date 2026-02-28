@@ -168,11 +168,11 @@ function getAllPosts(): BlogPost[] {
 // 生成导航栏
 function generateNav() {
   return [
-    { text: '个人主页', link: 'https://huanhuan0812.github.io/', activeMatch: '^/$' },
+    { text: '个人主页', link: '../', activeMatch: '^../' },
     { text: '🏠 首页', link: '/', activeMatch: '^/$' },
-    { text: '📝 文章', link: '/posts/', activeMatch: '^/posts/' },
-    { text: '📅 归档', link: '/archive/', activeMatch: '^/archive/' },
-    { text: '🏷️ 标签', link: '/tags/', activeMatch: '^/tags/' },
+    { text: '📝 日记', link: '/daily', activeMatch: '^/daily/' },
+    //{ text: '📅 归档', link: '/archive/', activeMatch: '^/archive/' },
+    //{ text: '🏷️ 标签', link: '/tags/', activeMatch: '^/tags/' },
     { text: '👤 关于', link: '/about/', activeMatch: '^/about/' }
   ]
 }
