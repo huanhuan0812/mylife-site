@@ -333,7 +333,7 @@ function parseMarkdown(content) {
 async function main() {
   const args = process.argv.slice(2);
   const inputFile = args[0] || path.resolve(__dirname, '../friendzone.md');
-  const outputFile = args[1] || path.resolve(__dirname, '../docs/public/daily.html');
+  const outputFile = args[1] || path.resolve(__dirname, '../docs/public/dailyzone.html');
   
   console.log('\n🔧 朋友圈转换工具');
   console.log('========================\n');
