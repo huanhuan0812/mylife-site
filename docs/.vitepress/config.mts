@@ -247,11 +247,6 @@ export default defineConfig({
       next: '下一篇'
     },
     
-    // 编辑链接
-    editLink: {
-      pattern: 'https://github.com/yourusername/yourblog/edit/main/docs/:path',
-      text: '在 GitHub 上编辑此页'
-    },
     
     // 最后更新时间
     lastUpdated: {
@@ -276,12 +271,12 @@ export default defineConfig({
     // 页脚
     footer: {
       message: '基于 VitePress 构建',
-      copyright: `Copyright © ${new Date().getFullYear()} 你的名字`
+      copyright: `Copyright © ${new Date().getFullYear()} _huanhuan_`
     },
     
     // 社交链接
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/yourusername' }
+      { icon: 'github', link: 'https://github.com/huanhuan0812' }
     ]
   },
 
