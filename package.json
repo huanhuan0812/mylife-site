@@ -5,11 +5,16 @@
     "path": "^0.12.7",
     "gray-matter": "4.0.3",
     "@types/node": "^25.3.0",
-    "vitepress-plugin-search": "^1.0.4-alpha.22"
+    "vitepress-plugin-search": "^1.0.4-alpha.22",
+    "highlight.js": "^11.11.1",
+    "marked": "^17.0.3",
+    "chokidar": "^5.0.0"
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+
+    "friend": "node tools/convert.js"
   }
 }

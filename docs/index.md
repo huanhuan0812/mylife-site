@@ -11,8 +11,8 @@ hero:
     alt: 头像
   actions:
     - theme: brand
-      text: 最新文章
-      link: /
+      text: 每日更新
+      link: /daily
     - theme: alt
       text: 关于我
       link: /about/
