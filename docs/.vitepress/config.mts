@@ -168,6 +168,7 @@ function getAllPosts(): BlogPost[] {
 // 生成导航栏
 function generateNav() {
   return [
+    { text: '个人主页', link: 'https://huanhuan0812.github.io/', activeMatch: '^/$' },
     { text: '🏠 首页', link: '/', activeMatch: '^/$' },
     { text: '📝 文章', link: '/posts/', activeMatch: '^/posts/' },
     { text: '📅 归档', link: '/archive/', activeMatch: '^/archive/' },
