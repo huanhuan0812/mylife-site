@@ -1,0 +1,167 @@
+/* .vitepress/theme/custom.css */
+:root {
+  /* 品牌主色 - 从404页面提取 */
+  --vp-c-brand-1: #2563eb;
+  --vp-c-brand-2: #1e40af;
+  --vp-c-brand-3: #2563eb;
+  
+  /* 文字颜色 */
+  --vp-c-text-1: #1f2937;
+  --vp-c-text-2: #4b5563;
+  --vp-c-text-3: #6b7280;
+  
+  /* 背景色 */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f9fafb;
+  --vp-c-bg-elv: #ffffff;
+  
+  /* 边框和分割线 */
+  --vp-c-border: #e5e7eb;
+  --vp-c-divider: #e5e7eb;
+  
+  /* 阴影 */
+  --vp-shadow-1: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  
+  /* 按钮颜色 */
+  --vp-button-brand-bg: #2563eb;
+  --vp-button-brand-hover-bg: #1e40af;
+  
+  /* 首页功能区域 */
+  --vp-home-hero-name-color: #2563eb;
+  --vp-home-hero-name-background: transparent;
+  
+  /* 代码块 */
+  --vp-code-color: #ef4444;
+  --vp-code-bg: #f9fafb;
+  
+  /* 自定义块 */
+  --vp-custom-block-tip-border: #2563eb;
+  --vp-custom-block-tip-text: #2563eb;
+  --vp-custom-block-tip-bg: rgba(37, 99, 235, 0.1);
+}
+
+/* 暗色模式适配 */
+.dark {
+  --vp-c-brand-1: #3b82f6;
+  --vp-c-brand-2: #2563eb;
+  --vp-c-brand-3: #1e40af;
+  
+  --vp-c-text-1: #f3f4f6;
+  --vp-c-text-2: #d1d5db;
+  --vp-c-text-3: #9ca3af;
+  
+  --vp-c-bg: #1a1a1a;
+  --vp-c-bg-alt: #1f2937;
+  --vp-c-bg-elv: #111827;
+  
+  --vp-c-border: #374151;
+  --vp-c-divider: #374151;
+}
+
+/* 导航栏样式 - 模仿原页面的效果 */
+.VPNav {
+  border-bottom: 1px solid var(--vp-c-border);
+  backdrop-filter: blur(8px);
+}
+
+.VPNavBar {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .VPNavBar {
+  background-color: rgba(26, 26, 26, 0.9) !important;
+}
+
+/* 链接悬停效果 - 模仿原页面 */
+.VPNavBarMenuLink:hover,
+.VPSidebarItem:hover {
+  color: var(--vp-c-brand-1) !important;
+}
+
+/* ===== 侧边栏修复 ===== */
+/* 移除激活项的蓝色背景和边框 */
+.VPSidebarItem.is-active .item {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* 激活项的文本颜色设置为品牌色 */
+.VPSidebarItem.is-active .link {
+  color: var(--vp-c-brand-1) !important;
+}
+
+/* 移除激活项左侧的蓝色条纹 */
+.VPSidebar .VPSidebarItem.is-active .link::before {
+  display: none !important;
+}
+
+/* 移除激活项的背景高亮 */
+.VPSidebarItem.is-active > .item {
+  background-color: transparent !important;
+}
+
+/* 悬停效果 - 只改变文字颜色，不加背景 */
+.VPSidebarItem .item:hover {
+  background-color: transparent !important;
+}
+
+.VPSidebarItem .link:hover {
+  color: var(--vp-c-brand-1) !important;
+}
+
+/* 移除所有侧边栏项目的背景色变化 */
+.VPSidebarItem .item {
+  transition: none !important;
+  border-radius: 0 !important;
+}
+
+/* 如果侧边栏项有深色模式的特殊处理 */
+.dark .VPSidebarItem.is-active .link {
+  color: var(--vp-c-brand-1) !important;
+}
+
+.dark .VPSidebarItem .link:hover {
+  color: var(--vp-c-brand-2) !important;
+}
+
+/* 移除侧边栏中可能存在的任何蓝色背景 */
+.vp-sidebar .active::before,
+.vp-sidebar .active::after,
+.VPSidebarItem.is-active .indicator {
+  display: none !important;
+  background: transparent !important;
+}
+
+/* 确保侧边栏项在激活状态下没有边框 */
+.VPSidebarItem.is-active {
+  border: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* 移除子菜单项的激活样式干扰 */
+.VPSidebarItem.is-active .VPSidebarItem .link {
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPSidebarItem.is-active .VPSidebarItem.is-active .link {
+  color: var(--vp-c-brand-1) !important;
+}
+
+/* 按钮样式 - 模仿原页面 */
+.VPButton.brand {
+  box-shadow: var(--vp-shadow-1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.VPButton.brand:hover {
+  transform: translateY(-2px);
+  background-color: var(--vp-c-brand-2) !important;
+}
+
+/* 自定义主页英雄区域 */
+.VPHomeHero .name {
+  color: var(--vp-c-brand-1);
+  text-shadow: 0 10px 20px rgba(37, 99, 235, 0.15);
+}

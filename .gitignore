@@ -1,2 +1,5 @@
 .github
 README.md
+node_modules/
+dist/
+cache/
