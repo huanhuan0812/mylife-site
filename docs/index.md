@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "我的个人博客"
-  text: "记录生活，分享思考"
+  name: "我的个人记录"
+  text: "热爱生活，珍惜美好"
   tagline: 程序猿
   image:
     src: /avatar.png
