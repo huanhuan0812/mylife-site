@@ -21,17 +21,11 @@ hero:
       link: /record
 ---
 <br></br><br></br>
-# 这是我的知识仓库
-
-### 修改时注意：
-- **对于markdown文件，在文件开头添加：**
 ```markdown
 ---
 title: 我的第一篇博客
 date: 2024-01-15
 tags: [技术, 生活]
-author: 你的名字
-excerpt: 这是文章摘要...
 ---
 
 这里是文章内容...
